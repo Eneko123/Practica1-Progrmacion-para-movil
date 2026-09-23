@@ -1,7 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Searcher;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class UsuariosUI : MonoBehaviour
 {
@@ -46,6 +47,7 @@ public class UsuariosUI : MonoBehaviour
     private string userName = string.Empty;
     private string ageText = string.Empty;
     private int ageInt = 0;
+    private float SearchID = 0;
 
     void Start()
     {
@@ -77,6 +79,13 @@ public class UsuariosUI : MonoBehaviour
         ageText = Newage;
         int.TryParse(Newage, out ageInt);
         Debug.Log($"Edad ingresada: {ageText}");
+    }
+
+    public void ReadID(string NewID)
+    {
+        float.TryParse(NewID, out float ID);
+        SearchID = ID;
+        Debug.Log($"ID ingresado: {ID}");
     }
 
     // Funcion para agregar un usuario a la lista
@@ -117,7 +126,60 @@ public class UsuariosUI : MonoBehaviour
 
         for (int i = 0; i < usuariosList.Count; i++)
         {
-            contentText.text += $"{usuariosList[i].ID}, {usuariosList[i].name}, {usuariosList[i].age}\n";
+            contentText.text = $"{usuariosList[i].ID}, {usuariosList[i].name}, {usuariosList[i].age}\n";
+        }
+    }
+
+    void ShowUsuariForID()
+    {
+        for (int i = 0; i < usuariosList.Count; i++)
+        {
+            if (usuariosList[i].ID == SearchID)
+            {
+                contentText.text = $"{usuariosList[i].ID}, {usuariosList[i].name}, {usuariosList[i].age}\n";
+            }
+            else
+            {
+                contentText.text = $"No se encontro un usuario con ID {SearchID}\n";
+            }
+        }
+    }
+
+    void ShowOldest()
+    {
+        // Buscar la edad maxima
+        int maxAge = 0;
+        for (int i = 0; i < usuariosList.Count; i++)
+        {
+            if (usuariosList[i].age > maxAge)
+            {
+                maxAge = usuariosList[i].age;
+            }
+        }
+
+        // Mostrar todos los que tengan esa edad
+        contentText.text = "";
+        for (int i = 0; i < usuariosList.Count; i++)
+        {
+            if (usuariosList[i].age == maxAge)
+            {
+                contentText.text += $"{usuariosList[i].ID}, {usuariosList[i].name}, {usuariosList[i].age}\n";
+            }
+        }
+    }
+
+    void DeleteUsuari()
+    {
+        for (int i = 0; i < usuariosList.Count; i++)
+        {
+            if (usuariosList[i].ID == SearchID)
+            {
+                usuariosList.RemoveAt(i);
+            }
+            else
+            {
+                contentText.text = $"No se encontro un usuario con ID {SearchID}\n";
+            }
         }
     }
 }
