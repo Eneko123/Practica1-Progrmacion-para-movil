@@ -16,6 +16,8 @@ public class UsuariosUI : MonoBehaviour
     public Button errorRertyButton;
     public Button reAddNewUsuariButton;
     public Button showListButton;
+    public Button reShowListButton;
+    public Button reAddNewUsuariFromListPanelButton;
     public Button showListOldestButton;
     public Button searchByIDButton;
     public Button deleteByIDButton;
@@ -96,6 +98,17 @@ public class UsuariosUI : MonoBehaviour
             successPanel.SetActive(false);
         });
         showListButton.onClick.AddListener(ShowList);
+        showListButton.onClick.AddListener(() =>
+        {
+            successPanel.SetActive(false);
+            listPanel.SetActive(true);
+        });
+        reShowListButton.onClick.AddListener(ShowList);
+        reAddNewUsuariFromListPanelButton.onClick.AddListener(() =>
+        {
+            addPanel.SetActive(true);
+            listPanel.SetActive(false);
+        });
         showListOldestButton.onClick.AddListener(ShowOldest);
         searchByIDButton.onClick.AddListener(() =>
         {
@@ -207,9 +220,6 @@ public class UsuariosUI : MonoBehaviour
 
     void ShowList()
     {
-        successPanel.SetActive(false);
-        listPanel.SetActive(true);
-
         // Medida de seguridad aunque es imposible mostrar la lista sin minimo haber añadido un usuario
         if (usuariosList.Count == 0)
         {
@@ -221,7 +231,7 @@ public class UsuariosUI : MonoBehaviour
         for (int i = 0; i < usuariosList.Count; i++)
         {
             // Imprimr los usuarios
-            contentText.text += $"{usuariosList[i].ID}, {usuariosList[i].name}, {usuariosList[i].age}\n";
+            contentText.text += $"{usuariosList[i].ID},     {usuariosList[i].name},     {usuariosList[i].age}\n";
         }
     }
 
@@ -270,7 +280,7 @@ public class UsuariosUI : MonoBehaviour
         {
             if (usuariosList[i].age == maxAge)
             {
-                contentText.text += $"{usuariosList[i].ID}, {usuariosList[i].name}, {usuariosList[i].age}\n";
+                contentText.text += $"{usuariosList[i].ID},     {usuariosList[i].name},     {usuariosList[i].age}\n";
             }
         }
     }
